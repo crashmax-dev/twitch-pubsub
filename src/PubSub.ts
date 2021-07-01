@@ -60,9 +60,8 @@ export class TwitchPubSub extends EventEmitter {
       }
 
       if (message.type === 'RECONNECT') {
-        console.log('Reconnecting...')
+        this.emit('error', 'Reconnecting...')
         setTimeout(this._connect, this.RECONNECT)
-        return
       }
 
       if (message.type === 'MESSAGE') {
@@ -87,38 +86,30 @@ export class TwitchPubSub extends EventEmitter {
     }
 
     if (this.ws.readyState === WebSocket.w3cwebsocket.OPEN) {
-      console.log(message)
       this.ws.send(JSON.stringify(message))
     }
   }
 
   private async _listen(topic: string, channel: string, id: number) {
-    if (topic) {
-      switch (topic) {
-        case 'channel-bits':
-          topic = 'channel-bits-events-v1'
-          break
-
-        case 'channel-points':
-          topic = 'channel-points-channel-v1'
-          break
-
-        case 'channel-subscriptions':
-          topic = 'channel-subscribe-events-v1'
-          break
-
-        case 'channel-bits-badge':
-          topic = 'channel-bits-badge-unlocks'
-          break
-
-        case 'chat-moderator-actions':
-          topic = 'chat_moderator_actions'
-          break
-
-        case 'whispers':
-          topic = 'whispers'
-          break
-      }
+    switch (topic) {
+      case 'channel-bits':
+        topic = 'channel-bits-events-v1'
+        break
+      case 'channel-points':
+        topic = 'channel-points-channel-v1'
+        break
+      case 'channel-subscriptions':
+        topic = 'channel-subscribe-events-v1'
+        break
+      case 'channel-bits-badge':
+        topic = 'channel-bits-badge-unlocks'
+        break
+      case 'chat-moderator-actions':
+        topic = 'chat_moderator_actions'
+        break
+      case 'whispers':
+        topic = 'whispers'
+        break
     }
 
     const message = {
@@ -131,7 +122,6 @@ export class TwitchPubSub extends EventEmitter {
     }
 
     if (this.ws.readyState === WebSocket.w3cwebsocket.OPEN) {
-      console.log(message)
       this.ws.send(JSON.stringify(message))
     }
   }
