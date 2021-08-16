@@ -1,7 +1,7 @@
 import { TwitchPubSub } from '../src'
 
 const PubSub = new TwitchPubSub({
-  oauth: '',
+  oauth: 'kk7m7doidvo2llkorvzdlu7p4tm9up',
   subscriptions: [
     {
       topic: 'channel-points',
